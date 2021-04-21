@@ -1,0 +1,140 @@
+{% extends 'base.html' %} {% block head %} {% endblock %} {% block body %}
+<div class="featured-post-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-6 col-lg-8">
+        <div class="row">
+          {% for article in articles %}
+          <div class="col-12 col-md-6">
+            <div class="single-blog-post style-3">
+              <div class="post-thumb">
+                <a
+                  href="/{{language}}/{{article.category}}/{{article.title.replace(' ', '-')}}"
+                  ><img src="{{article.imageUrl}}" alt=""
+                /></a>
+              </div>
+              <div class="post-data">
+                <a
+                  href="/{{language}}/{{article.category}}"
+                  class="post-catagory"
+                  >{{article.category.capitalize()}}</a
+                >
+                <a
+                  href="/{{language}}/{{article.category}}/{{article.title.replace(' ', '-')}}"
+                  class="post-title"
+                >
+                  <h6>{{article.title}}</h6>
+                </a>
+                <div class="post-meta d-flex align-items-center">
+                  <a href="#" class="post-like"
+                    ><img src="img/core-img/like.png" alt="" />
+                    <span>392</span></a
+                  >
+                  <a href="#" class="post-comment"
+                    ><img src="img/core-img/chat.png" alt="" />
+                    <span>10</span></a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-4">
+        {% for article in articles %}
+        <div class="single-blog-post small-featured-post d-flex">
+          <div class="post-thumb">
+            <a
+              href="/{{language}}/{{article.category}}/{{article.title.replace(' ', '-')}}"
+              ><img
+                title="{{article.title}}"
+                class="small-img"
+                src="{{article.imageUrl}}"
+                alt="{{article.title}}"
+            /></a>
+          </div>
+          <div class="post-data">
+            <a href="/{{language}}/{{article.category}}" class="post-catagory"
+              >{{article.category.capitalize()}}</a
+            >
+            <div class="post-meta">
+              <a
+                href="/{{language}}/{{article.category}}/{{article.title.replace(' ', '-')}}"
+                class="post-title"
+              >
+                <h6>{{article.title}}</h6>
+              </a>
+              <p class="post-date">
+                <span>{{article.date}}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        <div class="newsletter-widget mt-4">
+          <h4>Newsletter</h4>
+          <p>
+            Orci varius natoque penatibus et magnis dis parturient montes,
+            nascetur ridiculus mus.
+          </p>
+          <form action="#" method="post">
+            <input type="text" name="text" placeholder="Name" />
+            <input type="email" name="email" placeholder="Email" />
+            <button type="submit" class="btn w-100">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% for category in news %}
+<div class="popular-news-area section-padding-80-50">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="section-heading">
+          <h6>{{category}}</h6>
+        </div>
+        <div class="row">
+          {% for article in news[category] %}
+          <div class="col-md-4">
+            <div class="single-blog-post style-2">
+              <div class="post-thumb">
+                <a
+                  href="/{{language}}/{{article.category}}/{{article.title.replace(' ', '-')}}"
+                  ><img
+                    title="{{article.title}}"
+                    src="{{article.imageUrl}}"
+                    alt="{{article.title}}"
+                /></a>
+              </div>
+              <div class="post-data">
+                <a
+                  href="/{{language}}/{{article.category}}/{{article.title.replace(' ', '-')}}"
+                  class="post-title"
+                >
+                  <h6>{{article.title}}</h6>
+                </a>
+                <div class="post-meta">
+                  <div class="post-date">
+                    <a href="#">February 11, 2018</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<div class="container">
+  <div class="row"></div>
+</div>
+{% endblock %}

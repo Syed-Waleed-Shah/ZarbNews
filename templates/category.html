@@ -1,0 +1,131 @@
+{% extends 'base.html' %} {% block head %} {% endblock %} {% block body %}
+
+<div class="popular-news-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <!-- <div class="section-heading">
+          <h6>{{categoryName}}</h6>
+        </div> -->
+        <div class="row">
+          {% for article in articles[:6] %}
+          <div class="col-md-4">
+            <div class="single-blog-post style-2">
+              <div class="post-thumb">
+                <a
+                  href="/{{language}}/{{article.category}}/{{article.title.replace(' ', '-')}}"
+                  ><img
+                    class="rounded shadow"
+                    src="{{article.imageUrl}}"
+                    alt=""
+                /></a>
+              </div>
+              <div class="post-data">
+                <a
+                  href="/{{language}}/{{article.category}}/{{article.title.replace(' ', '-')}}"
+                  class="post-title"
+                >
+                  <h6>{{article.title}}</h6>
+                </a>
+                <div class="post-meta">
+                  <div class="post-date">
+                    <span class="text-danger" href="#"
+                      >{{categoryName.capitalize()}}</span
+                    >
+                    <span> - </span> <span href="#">{{article.date}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="featured-post-area my-4">
+  <div class="container">
+    <div class="row">
+      {% for article in articles[6:14] %}
+      <div class="col-12 col-md-6 mb-4">
+        <div class="single-blog-post small-featured-post d-flex">
+          <div class="post-thumb">
+            <a
+              href="/{{language}}/{{article.category}}/{{article.title.replace(' ', '-')}}"
+              ><img
+                class="small-img rounded shadow"
+                src="{{article.imageUrl}}"
+                alt=""
+            /></a>
+          </div>
+          <div class="post-data">
+            <a
+              href="/{{language}}/{{article.category}}/{{article.title.replace(' ', '-')}}"
+              class="post-catagory"
+              >{{article.category}}</a
+            >
+            <div class="post-meta">
+              <a href="#" class="post-title">
+                <h6>{{article.title}}</h6>
+              </a>
+              <p class="post-date">
+                <span>{{article.date}}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="popular-news-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <!-- <div class="section-heading">
+          <h6>{{categoryName}}</h6>
+        </div> -->
+        <div class="row">
+          {% for article in articles[14:20] %}
+          <div class="col-md-4">
+            <div class="single-blog-post style-2">
+              <div class="post-thumb">
+                <a
+                  href="/{{language}}/{{article.category}}/{{article.title.replace(' ', '-')}}"
+                  ><img
+                    class="rounded shadow"
+                    src="{{article.imageUrl}}"
+                    alt=""
+                /></a>
+              </div>
+              <div class="post-data">
+                <a
+                  href="/{{language}}/{{article.category}}/{{article.title.replace(' ', '-')}}"
+                  class="post-title"
+                >
+                  <h6>{{article.title}}</h6>
+                </a>
+                <div class="post-meta">
+                  <div class="post-date">
+                    <span class="text-danger" href="#"
+                      >{{categoryName.capitalize()}}</span
+                    >
+                    <span> - </span> <span href="#">{{article.date}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
