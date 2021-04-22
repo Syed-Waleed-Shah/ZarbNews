@@ -56,8 +56,21 @@ scheduler.add_job(id='news fetcher', func = fetchNews, trigger = 'interval', sec
 scheduler.start()
 
 
-def getNews(category, count=20):
-    return News.query.filter(News.category == category).order_by(News.id.desc()).limit(count)
+def getNews(language, category, count=20):
+    return News.query.filter(News.language == language, News.category == category).order_by(News.id.desc()).limit(count)
+
+def getArticle(title):
+    result = db.session.execute("""SELECT id, title, body, date, imageUrl, category from news where title=:title""", {"title":title})
+    row = result.fetchone()
+    return {
+        "id":row[0], "title":row[1], "body":row[2], "date":row[3], "imageUrl":row[4], "category":row[5]
+    }
+
+
+def getCategories(language):
+    result = db.session.execute("""SELECT DISTINCT category from news where language=:lang""", {'lang':language})
+    # result = db.session.query(News.category.distinct())
+    return [value[0] for value in result]
 
 def joinList(lst, sep=','):
     result = ''
@@ -68,13 +81,11 @@ def joinList(lst, sep=','):
         result += lst[len(lst)-1]
     return result
 
-def getCategories():
-    result = db.session.query(News.category.distinct()).all()
-    return [value[0] for value in result]
+
 
 @app.route('/')
 def index():
-    return redirect('/en')
+    return redirect('/english')
 
 @app.route('/<language>/')
 def home(language):    
@@ -87,8 +98,8 @@ def home(language):
     #     return render_template('index2.html', news = articles.json(), categories = categories, language=language)
     
     # return "Website is down"      
-    articles = getNews("latest")
-    categories = getCategories()
+    articles = getNews(language, "latest")
+    categories = getCategories(language)
     return render_template('index2.html', articles = articles, categories = categories, language=language) 
 
 
@@ -97,27 +108,30 @@ def category(language, category):
     # categoriesInfo = requests.get(api_base + '/news/categories?key=' + api_key + "&lang=" + language).json()
     # categories = categoriesInfo['categories']    
     # articles = requests.get(api_base + 'news/{0}/20?key={1}&lang={2}'.format(category + ",international", api_key, language))
-    articles = getNews(category)
-    categories = getCategories()
+    articles = getNews(language, category)
+    categories = getCategories(language)
     return render_template('category.html', articles = articles, categoryName = category, categories = categories, language=language)
 
 @app.route("/<language>/<category>/<title>")
 def details(language, category, title):
-    try:
-        categoriesInfo = requests.get(api_base + '/news/categories?key=' + api_key + "&lang=" + language).json()
-        categories = categoriesInfo['categories']
-        title = str(title).replace('-', ' ').lower()
-        article = requests.get(api_base + 'news/title/{0}/1?key={1}&lang={2}'.format(title, api_key, language))
-        a = article.json()
-        articles = requests.get(api_base + 'news/{0}/20?key={1}'.format("international", api_key))
-        return render_template('single-post.html', article = a[0], categories = categories, news = articles.json(), language=language, hideBreakingNews=True)
-    except Exception as e: 
-        return str(e)
+    title = title.replace('-',' ')
+    article = getArticle(title)
+    categories = getCategories(language)
+    return render_template('single-post.html', article = article, categories = categories, language=language, hideBreakingNews=True)
 
-@app.route('/test/categories')
-def test_categories():
-    return jsonify(getCategories())
+@app.route('/test/categories/<language>')
+def test_categories(language):
+    return jsonify(getCategories(language))
 
+@app.route('/test/article/<title>')
+def test_article(title):
+    return jsonify(getArticle(title))
+
+@app.route('/private/query/database/<query>')
+def exec_query(query):
+    db.session.execute(query)
+    db.session.commit()
+    return "Executed Sucessfully"
 
 @app.route('/test')
 def test():    
@@ -127,6 +141,7 @@ def test():
     <thead>
     <tr>
     <td>id</td>
+    <td>language</td>
     <td>title</td>
      <td>category</td>
     <td>date</td>
@@ -135,7 +150,7 @@ def test():
     <tbody>
     """
     for article in articles:
-        html += "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td></tr>".format(article.id, article.title, article.category, article.date)
+        html += "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>".format(article.id, article.language, article.title, article.category, article.date)
 
     html += "</tbody></table>"
 

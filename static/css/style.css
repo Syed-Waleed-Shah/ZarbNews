@@ -55,6 +55,21 @@ img {
   height: auto;
   max-width: 100%;
 }
+
+.large-img {
+  height: 200px;
+  max-width: 100%;
+  width: fit-content;
+  width: -webkit-fill-available;
+}
+
+.post-image {
+  min-height: 200px;
+  max-height: 400px;
+  max-width: 100%;
+  width: fit-content;
+  width: -webkit-fill-available;
+}
 .mt-15 {
   margin-top: 15px !important;
 }
@@ -680,6 +695,11 @@ textarea:focus {
 }
 .single-blog-post .post-thumb a {
   display: block;
+  background-image: url("https://i.stack.imgur.com/h6viz.gif");
+  background-color: lavender;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* background-color: lavender; */
 }
 .single-blog-post .post-thumb a .small-img {
   height: 90px;
