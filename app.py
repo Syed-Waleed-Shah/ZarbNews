@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, Response, request, 
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
 from datetime import datetime
+import secrets
 import requests
 
 app = Flask(__name__)
@@ -20,7 +21,7 @@ languages = [
 
 
 class News(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String, primary_key=True)
     title = db.Column(db.String)
     body = db.Column(db.String)
     category = db.Column(db.String(30))
@@ -34,7 +35,7 @@ class News(db.Model):
 def fetchNews():
     # Looping through all languages to fetch news
     for language in languages:
-        response = requests.get(api_base + "/news/100?key={0}&lang={1}".format(api_key, language['code']))
+        response = requests.get(api_base + "/news/500?key={0}&lang={1}".format(api_key, language['code']))
         if response.status_code == 200:
             articles = response.json()
             for article in articles:
@@ -43,7 +44,8 @@ def fetchNews():
                 category = article.get('category')
                 imageUrl = article.get('imageUrl')
                 date = article.get('date')
-                news = News(title=title, body=body, category=category, imageUrl=imageUrl, language=language['name'], date=date)
+                id = secrets.token_urlsafe(16)
+                news = News(id=id, title=title, body=body, category=category, imageUrl=imageUrl, language=language['name'], date=date)
 
                 # Before adding news in database checking whether news already exists in database
                 result = News.query.filter(News.title==title, News.imageUrl==imageUrl).all()
@@ -59,9 +61,11 @@ scheduler.start()
 def getNews(language, category, count=20):
     return News.query.filter(News.language == language, News.category == category).order_by(News.id.desc()).limit(count)
 
-def getArticle(title):
-    result = db.session.execute("""SELECT id, title, body, date, imageUrl, category from news where title=:title""", {"title":title})
+def getArticle(id):
+    result = db.session.execute("""SELECT id, title, body, date, imageUrl, category from news where id=:id""", {"id":id})
     row = result.fetchone()
+    if row == None:
+        return None
     return {
         "id":row[0], "title":row[1], "body":row[2], "date":row[3], "imageUrl":row[4], "category":row[5]
     }
@@ -112,10 +116,11 @@ def category(language, category):
     categories = getCategories(language)
     return render_template('category.html', articles = articles, categoryName = category, categories = categories, language=language)
 
-@app.route("/<language>/<category>/<title>")
-def details(language, category, title):
-    title = title.replace('-',' ')
-    article = getArticle(title)
+@app.route("/<language>/<category>/<article_id>")
+def details(language, category, article_id):
+    article = getArticle(article_id)
+    if article == None:
+        return "Unable to find this article"
     categories = getCategories(language)
     return render_template('single-post.html', article = article, categories = categories, language=language, hideBreakingNews=True)
 
@@ -137,6 +142,7 @@ def exec_query(query):
 def test():    
     articles = News.query.all()
     html = """
+    <h1>Total Articles : {0}</h1>
     <table>
     <thead>
     <tr>
@@ -148,7 +154,7 @@ def test():
     </tr>
     </thead>
     <tbody>
-    """
+    """.format(len(articles))
     for article in articles:
         html += "<tr><td>{0}</td><td>{1}</td><td>{2}</td><td>{3}</td><td>{4}</td></tr>".format(article.id, article.language, article.title, article.category, article.date)
 
