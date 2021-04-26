@@ -27,6 +27,16 @@
       src="https://platform-api.sharethis.com/js/sharethis.js#property=60523206a784de0012cc7a5c&product=inline-share-buttons"
       async="async"
     ></script>
+    <!-- Urdu fonts -->   
+
+  <!-- Custom text styles for each language -->
+  {% if language == 'urdu' %}
+    {% include 'fonts/urdu-css.html'%}
+  {% elif language == 'hindi' %}
+    {% include 'fonts/hindi-css.html'%}
+  {% else %}
+    {% include 'fonts/english-css.html'%}
+  {% endif %}
     {% block head %} {% endblock %}
   </head>
   <body>
@@ -40,7 +50,7 @@
               >
                 <div class="logo">
                   <a href="/{{language}}"
-                    ><img src="/static/images/core-img/logo.png" alt=""
+                    ><img class="logo-img" src="/static/images/logos/logo-{{language}}.svg" alt=""
                   /></a>
                 </div>
 
@@ -79,7 +89,7 @@
             >
               <div class="logo">
                 <a href="/"
-                  ><img src="/static/images/core-img/logo.png" alt=""
+                  ><img class="logo-img" src="/static/images/logos/logo-{{language}}.svg" alt=""
                 /></a>
               </div>
 
@@ -100,7 +110,7 @@
                   <ul>
                     {% for category in categories[:7] %}
                     <li {% if categoryName == category %}class="active" {% endif %}>
-                      <a href="/{{language}}/{{category}}"
+                      <a href="/{{language}}/{{category.replace(' ','-')}}"
                         >{{category.capitalize()}}</a
                       >
                     </li>
@@ -118,7 +128,7 @@
                       <ul class="dropdown">
                         {% for category in categories[7:] %}
                         <li>
-                          <a href="/{{language}}/{{category}}/"
+                          <a href="/{{language}}/{{category.replace(' ','-')}}/"
                             >{{category.capitalize()}}</a
                           >
                         </li>
@@ -147,7 +157,7 @@
                           <li><a href="/urdu/">Urdu News</a></li>
                           <li><a href="/hindi/">Hindi News</a></li>
                           <li>
-                            <a href="single-post.html">Single Articles</a>
+                            <a href="/english/">English News</a>
                           </li>
                           <li><a href="about.html">About Us</a></li>
                           <li><a href="contact.html">Contact</a></li>

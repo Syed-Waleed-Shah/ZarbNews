@@ -5,6 +5,7 @@
       <div class="col-12 col-md-6 col-lg-8">
         <div class="row">
           {% for article in articles %}
+          <!-- Main posts -->
           <div class="col-12 col-md-6">
             <div class="single-blog-post style-3">
               <div class="post-thumb">
@@ -20,9 +21,9 @@
                 >
                 <a
                   href="/{{language}}/{{article.category}}/{{article.id}}"
-                  class="post-title"
+                  class="post-title urdu-h2"
                 >
-                  <h6>{{article.title}}</h6>
+                  <h2 class="h2">{{article.title}}</h2>
                 </a>
                 <div class="post-meta d-flex align-items-center">
                   <a href="#" class="post-like"
@@ -42,6 +43,7 @@
       </div>
       <div class="col-12 col-md-6 col-lg-4">
         {% for article in articles %}
+        <!-- Small side posts -->
         <div class="single-blog-post small-featured-post d-flex">
           <div class="post-thumb">
             <a href="/{{language}}/{{article.category}}/{{article.id}}"
@@ -49,11 +51,13 @@
                 title="{{article.title}}"
                 class="small-img"
                 src="{{article.imageUrl}}"
-                alt="{{article.title}}"
+                alt=""
             /></a>
           </div>
           <div class="post-data">
-            <a href="/{{language}}/{{article.category}}" class="post-catagory"
+            <a
+              href="/{{language}}/{{article.category}}"
+              class="urdu-p post-catagory"
               >{{article.category.capitalize()}}</a
             >
             <div class="post-meta">
@@ -61,7 +65,7 @@
                 href="/{{language}}/{{article.category}}/{{article.id}}"
                 class="post-title"
               >
-                <h6>{{article.title}}</h6>
+                <h4 class="h4">{{article.title}}</h4>
               </a>
               <p class="post-date">
                 <span>{{article.date}}</span>

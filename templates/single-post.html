@@ -32,13 +32,13 @@
             <div class="post-data">
               <a href="#" class="post-catagory">{{article.category}}</a>
               <a href="#" class="post-title">
-                <h6>{{article.title}}</h6>
+                <h1 class="h1">{{article.title}}</h1>
               </a>
               <div class="post-meta">
                 <p class="post-author">By <a href="#">The Analysts</a></p>
 
                 {% for paragraph in article.body.split('.') %}
-                <p>{{paragraph}}</p>
+                <p class="p">{{paragraph}}</p>
                 {% endfor %}
                 <div
                   class="newspaper-post-like d-flex align-items-center justify-content-between"
@@ -92,70 +92,42 @@
               <a href="#">Next <i class="fa fa-angle-right"></i></a>
             </div>
           </div> -->
-          <div class="section-heading">
-            <h6>Related</h6>
+          <div>
+            <hr />
+            <h4>More From '{{category}}'</h4>
+            <hr />
           </div>
           <div class="row">
-            <div class="col-12 col-md-6">
-              <div class="single-blog-post style-3 mb-80">
+            {% for article in articles[0:6] %}
+            <div class="col-md-6">
+              <div class="single-blog-post style-2">
                 <div class="post-thumb">
-                  <a href="#"
-                    ><img src="/static/images/bg-img/12.jpg" alt=""
+                  <a href="/{{language}}/{{article.category}}/{{article.id}}"
+                    ><img class="large-img" src="{{article.imageUrl}}" alt=""
                   /></a>
                 </div>
                 <div class="post-data">
-                  <a href="#" class="post-catagory">Finance</a>
-                  <a href="#" class="post-title">
-                    <h6>
-                      Dolor sit amet, consectetur adipiscing elit. Nam eu metus
-                      sit amet odio sodales placer. Sed varius leo ac...
-                    </h6>
+                  <a
+                    href="/{{language}}/{{article.category}}/{{article.id}}"
+                    class="post-title"
+                  >
+                    <h2 class="h2">{{article.title}}</h2>
                   </a>
-                  <div class="post-meta d-flex align-items-center">
-                    <a href="#" class="post-like"
-                      ><img src="/static/images/core-img/like.png" alt="" />
-                      <span>392</span></a
-                    >
-                    <a href="#" class="post-comment"
-                      ><img src="/static/images/core-img/chat.png" alt="" />
-                      <span>10</span></a
-                    >
+                  <div class="post-meta">
+                    <div class="post-date">
+                      <span class="text-danger" href="#"
+                        >{{category.capitalize()}}</span
+                      >
+                      <span> - </span> <span href="#">{{article.date}}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-
-            <div class="col-12 col-md-6">
-              <div class="single-blog-post style-3 mb-80">
-                <div class="post-thumb">
-                  <a href="#"
-                    ><img src="/static/images/bg-img/13.jpg" alt=""
-                  /></a>
-                </div>
-                <div class="post-data">
-                  <a href="#" class="post-catagory">Finance</a>
-                  <a href="#" class="post-title">
-                    <h6>
-                      Dolor sit amet, consectetur adipiscing elit. Nam eu metus
-                      sit amet odio sodales placer. Sed varius leo ac...
-                    </h6>
-                  </a>
-                  <div class="post-meta d-flex align-items-center">
-                    <a href="#" class="post-like"
-                      ><img src="/static/images/core-img/like.png" alt="" />
-                      <span>392</span></a
-                    >
-                    <a href="#" class="post-comment"
-                      ><img src="/static/images/core-img/chat.png" alt="" />
-                      <span>10</span></a
-                    >
-                  </div>
-                </div>
-              </div>
-            </div>
+            {% endfor %}
           </div>
 
-          <div class="comment_area clearfix">
+          <!-- <div class="comment_area clearfix">
             <h5 class="title">3 Comments</h5>
             <ol>
               <li class="single_comment_area">
@@ -216,8 +188,8 @@
                 </div>
               </li>
             </ol>
-          </div>
-          <div class="post-a-comment-area section-padding-80-0">
+          </div> -->
+          <!-- <div class="post-a-comment-area section-padding-80-0">
             <h4>Leave a comment</h4>
 
             <div class="contact-form-area">
@@ -265,26 +237,33 @@
                 </div>
               </form>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="col-12 col-lg-4">
         <div class="blog-sidebar-area">
+          <hr />
+          <h4 class="mb-4">Related To Topic</h4>
+          <hr />
           <div class="latest-posts-widget mb-50">
+            {% for article in articles %}
             <div class="single-blog-post small-featured-post d-flex">
               <div class="post-thumb">
                 <a href="#"
-                  ><img src="/static/images/bg-img/19.jpg" alt=""
+                  ><img
+                    class="small-img"
+                    src="/static/images/bg-img/19.jpg"
+                    alt=""
                 /></a>
               </div>
               <div class="post-data">
                 <a href="#" class="post-catagory">Finance</a>
                 <div class="post-meta">
                   <a href="#" class="post-title">
-                    <h6>
+                    <h4 class="h4">
                       Pellentesque mattis arcu massa, nec fringilla turpis
                       eleifend id.
-                    </h6>
+                    </h4>
                   </a>
                   <p class="post-date">
                     <span>7:00 AM</span> | <span>April 14</span>
@@ -292,116 +271,10 @@
                 </div>
               </div>
             </div>
-
-            <div class="single-blog-post small-featured-post d-flex">
-              <div class="post-thumb">
-                <a href="#"
-                  ><img src="/static/images/bg-img/20.jpg" alt=""
-                /></a>
-              </div>
-              <div class="post-data">
-                <a href="#" class="post-catagory">Politics</a>
-                <div class="post-meta">
-                  <a href="#" class="post-title">
-                    <h6>
-                      Sed a elit euismod augue semper congue sit amet ac sapien.
-                    </h6>
-                  </a>
-                  <p class="post-date">
-                    <span>7:00 AM</span> | <span>April 14</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="single-blog-post small-featured-post d-flex">
-              <div class="post-thumb">
-                <a href="#"
-                  ><img src="/static/images/bg-img/21.jpg" alt=""
-                /></a>
-              </div>
-              <div class="post-data">
-                <a href="#" class="post-catagory">Health</a>
-                <div class="post-meta">
-                  <a href="#" class="post-title">
-                    <h6>
-                      Pellentesque mattis arcu massa, nec fringilla turpis
-                      eleifend id.
-                    </h6>
-                  </a>
-                  <p class="post-date">
-                    <span>7:00 AM</span> | <span>April 14</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="single-blog-post small-featured-post d-flex">
-              <div class="post-thumb">
-                <a href="#"
-                  ><img src="/static/images/bg-img/22.jpg" alt=""
-                /></a>
-              </div>
-              <div class="post-data">
-                <a href="#" class="post-catagory">Finance</a>
-                <div class="post-meta">
-                  <a href="#" class="post-title">
-                    <h6>
-                      Augue semper congue sit amet ac sapien. Fusce consequat.
-                    </h6>
-                  </a>
-                  <p class="post-date">
-                    <span>7:00 AM</span> | <span>April 14</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="single-blog-post small-featured-post d-flex">
-              <div class="post-thumb">
-                <a href="#"
-                  ><img src="/static/images/bg-img/23.jpg" alt=""
-                /></a>
-              </div>
-              <div class="post-data">
-                <a href="#" class="post-catagory">Travel</a>
-                <div class="post-meta">
-                  <a href="#" class="post-title">
-                    <h6>
-                      Pellentesque mattis arcu massa, nec fringilla turpis
-                      eleifend id.
-                    </h6>
-                  </a>
-                  <p class="post-date">
-                    <span>7:00 AM</span> | <span>April 14</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="single-blog-post small-featured-post d-flex">
-              <div class="post-thumb">
-                <a href="#"
-                  ><img src="/static/images/bg-img/24.jpg" alt=""
-                /></a>
-              </div>
-              <div class="post-data">
-                <a href="#" class="post-catagory">Politics</a>
-                <div class="post-meta">
-                  <a href="#" class="post-title">
-                    <h6>
-                      Augue semper congue sit amet ac sapien. Fusce consequat.
-                    </h6>
-                  </a>
-                  <p class="post-date">
-                    <span>7:00 AM</span> | <span>April 14</span>
-                  </p>
-                </div>
-              </div>
-            </div>
+            {% endfor%}
           </div>
 
-          <div class="popular-news-widget mb-50">
+          <!-- <div class="popular-news-widget mb-50">
             <h3>4 Most Popular News</h3>
 
             <div class="single-popular-post">
@@ -443,7 +316,7 @@
               </a>
               <p>April 14, 2018</p>
             </div>
-          </div>
+          </div> -->
 
           <div class="newsletter-widget mb-50">
             <h4>Newsletter</h4>
@@ -457,8 +330,39 @@
               <button type="submit" class="btn w-100">Subscribe</button>
             </form>
           </div>
+          <hr />
+          <h4 class="mb-4">Recent News</h4>
+          <hr />
+          <div class="latest-posts-widget mb-50">
+            {% for article in articles %}
+            <div class="single-blog-post small-featured-post d-flex">
+              <div class="post-thumb">
+                <a href="#"
+                  ><img
+                    class="small-img"
+                    src="/static/images/bg-img/19.jpg"
+                    alt=""
+                /></a>
+              </div>
+              <div class="post-data">
+                <a href="#" class="post-catagory">Finance</a>
+                <div class="post-meta">
+                  <a href="#" class="post-title">
+                    <h4 class="h4">
+                      Pellentesque mattis arcu massa, nec fringilla turpis
+                      eleifend id.
+                    </h4>
+                  </a>
+                  <p class="post-date">
+                    <span>7:00 AM</span> | <span>April 14</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            {% endfor%}
+          </div>
 
-          <div class="latest-comments-widget">
+          <!-- <div class="latest-comments-widget">
             <h3>Latest Comments</h3>
 
             <div class="single-comments d-flex">
@@ -512,7 +416,7 @@
                 <p>06:34 am, April 14, 2018</p>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
