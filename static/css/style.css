@@ -15,6 +15,7 @@ body {
   font-family: roboto, sans-serif;
   font-size: 14px;
 }
+
 h1,
 h2,
 h3,
@@ -54,6 +55,24 @@ ol li {
 img {
   height: auto;
   max-width: 100%;
+}
+
+.logo-img {
+  /* height: auto;
+  max-width: 45%; */
+  height: 200px;
+  width: 300px;
+}
+.urdu-h1,
+.urdu-h2,
+.urdu-h3,
+.urdu-h4,
+.urdu-h5,
+.urdu-h6,
+.urdu-p {
+  font-weight: 600;
+  font-size: 20px;
+  font-family: "Lateef", cursive;
 }
 
 .large-img {
@@ -298,7 +317,7 @@ textarea:focus {
 .header-area .top-header-area {
   width: 100%;
   height: 100px;
-  background-color: #ee002d;
+  background-color: #3a2727;
   position: relative;
   z-index: 1;
 }
@@ -315,7 +334,7 @@ textarea:focus {
 .header-area .top-header-area .top-header-content {
   width: 100%;
   height: 100px;
-  background-color: #ee002d;
+  background-color: #3a2727;
   position: relative;
   z-index: 1;
 }
@@ -718,11 +737,12 @@ textarea:focus {
 }
 .single-blog-post .post-data .post-title {
   display: block;
+  font-family: "Lateef", cursive;
 }
 .single-blog-post .post-data .post-title h6 {
   -webkit-transition-duration: 500ms;
   transition-duration: 500ms;
-  line-height: 1.9;
+  line-height: 1.1;
 }
 .single-blog-post .post-data .post-title h6:hover,
 .single-blog-post .post-data .post-title h6:focus {
@@ -774,7 +794,7 @@ textarea:focus {
   padding: 15px 0;
 }
 .single-blog-post.style-2 .post-data .post-title h6 {
-  font-size: 14px;
+  font-size: 26px;
 }
 .single-blog-post.style-2 .post-data .post-meta .post-date a {
   font-size: 12px;
@@ -786,8 +806,8 @@ textarea:focus {
   padding: 15px 0;
 }
 .single-blog-post.style-3 .post-data .post-title h6 {
-  font-size: 18px;
-  line-height: 1.7;
+  font-size: 26px;
+  line-height: 1;
   margin-bottom: 30px;
 }
 .single-blog-post.featured-post {
@@ -884,10 +904,10 @@ textarea:focus {
   line-height: 1;
 }
 .single-blog-post.small-featured-post .post-data .post-title h6 {
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 20px;
+  line-height: 1.1;
   margin-bottom: 10px;
-  font-weight: 700;
+  font-weight: 600;
 }
 .single-blog-post.small-featured-post .post-data .post-date {
   margin-bottom: 0;
