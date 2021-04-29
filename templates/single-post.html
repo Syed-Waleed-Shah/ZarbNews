@@ -98,25 +98,24 @@
             <hr />
           </div>
           <div class="row">
-            {% for article in articles[0:6] %}
+            {% for article in fromcategory %}
             <div class="col-md-6">
               <div class="single-blog-post style-2">
                 <div class="post-thumb">
-                  <a href="/{{language}}/{{article.category}}/{{article.id}}"
+                  <a href="/post/{{article.id}}"
                     ><img class="large-img" src="{{article.imageUrl}}" alt=""
                   /></a>
                 </div>
                 <div class="post-data">
-                  <a
-                    href="/{{language}}/{{article.category}}/{{article.id}}"
-                    class="post-title"
-                  >
+                  <a href="/post/{{article.id}}" class="post-title">
                     <h2 class="h2">{{article.title}}</h2>
                   </a>
                   <div class="post-meta">
                     <div class="post-date">
-                      <span class="text-danger" href="#"
-                        >{{category.capitalize()}}</span
+                      <span
+                        class="text-danger"
+                        href="/{{language}}/{{article.category.replace(' ','-')}}"
+                        >{{article.category.capitalize()}}</span
                       >
                       <span> - </span> <span href="#">{{article.date}}</span>
                     </div>
@@ -242,38 +241,6 @@
       </div>
       <div class="col-12 col-lg-4">
         <div class="blog-sidebar-area">
-          <hr />
-          <h4 class="mb-4">Related To Topic</h4>
-          <hr />
-          <div class="latest-posts-widget mb-50">
-            {% for article in articles %}
-            <div class="single-blog-post small-featured-post d-flex">
-              <div class="post-thumb">
-                <a href="#"
-                  ><img
-                    class="small-img"
-                    src="/static/images/bg-img/19.jpg"
-                    alt=""
-                /></a>
-              </div>
-              <div class="post-data">
-                <a href="#" class="post-catagory">Finance</a>
-                <div class="post-meta">
-                  <a href="#" class="post-title">
-                    <h4 class="h4">
-                      Pellentesque mattis arcu massa, nec fringilla turpis
-                      eleifend id.
-                    </h4>
-                  </a>
-                  <p class="post-date">
-                    <span>7:00 AM</span> | <span>April 14</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            {% endfor%}
-          </div>
-
           <!-- <div class="popular-news-widget mb-50">
             <h3>4 Most Popular News</h3>
 
@@ -318,6 +285,36 @@
             </div>
           </div> -->
 
+          <hr />
+          <h4 class="mb-4">Recent News</h4>
+          <hr />
+          <div class="latest-posts-widget mb-50">
+            {% for article in latest %}
+            <div class="single-blog-post small-featured-post d-flex">
+              <div class="post-thumb">
+                <a href="/post/{{article.id}}"
+                  ><img class="small-img" src="{{article.imageUrl}}" alt=""
+                /></a>
+              </div>
+              <div class="post-data">
+                <a
+                  href="/{{language}}/{{article.category.replace(' ','-')}}"
+                  class="post-catagory"
+                  >{{article.category.capitalize()}}</a
+                >
+                <div class="post-meta">
+                  <a href="/post/{{article.id}}" class="post-title">
+                    <h4 class="h4">{{article.title}}</h4>
+                  </a>
+                  <p class="post-date">
+                    <span>{{article.date}}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+            {% endfor%}
+          </div>
+
           <div class="newsletter-widget mb-50">
             <h4>Newsletter</h4>
             <p>
@@ -329,37 +326,6 @@
               <input type="email" name="email" placeholder="Email" />
               <button type="submit" class="btn w-100">Subscribe</button>
             </form>
-          </div>
-          <hr />
-          <h4 class="mb-4">Recent News</h4>
-          <hr />
-          <div class="latest-posts-widget mb-50">
-            {% for article in articles %}
-            <div class="single-blog-post small-featured-post d-flex">
-              <div class="post-thumb">
-                <a href="#"
-                  ><img
-                    class="small-img"
-                    src="/static/images/bg-img/19.jpg"
-                    alt=""
-                /></a>
-              </div>
-              <div class="post-data">
-                <a href="#" class="post-catagory">Finance</a>
-                <div class="post-meta">
-                  <a href="#" class="post-title">
-                    <h4 class="h4">
-                      Pellentesque mattis arcu massa, nec fringilla turpis
-                      eleifend id.
-                    </h4>
-                  </a>
-                  <p class="post-date">
-                    <span>7:00 AM</span> | <span>April 14</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            {% endfor%}
           </div>
 
           <!-- <div class="latest-comments-widget">
