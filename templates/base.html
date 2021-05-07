@@ -110,8 +110,8 @@
                   <ul>
                     {% for category in categories[:7] %}
                     <li {% if categoryName == category %}class="active" {% endif %}>
-                      <a href="/{{language}}/{{category.replace(' ','-')}}"
-                        >{{category.capitalize()}}</a
+                      <a href="/{{language}}/{{category}}"
+                        >{{category.replace('-',' ').capitalize()}}</a
                       >
                     </li>
                     {% endfor %}

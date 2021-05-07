@@ -29,7 +29,7 @@
                   src="{{article.imageUrl}}"
               /></a>
             </div>
-            <div class="post-data">
+            <div class="post-data px-2">
               <a href="#" class="post-catagory">{{article.category}}</a>
               <a href="#" class="post-title">
                 <h1 class="h1">{{article.title}}</h1>
@@ -37,7 +37,7 @@
               <div class="post-meta">
                 <p class="post-author">By <a href="#">The Analysts</a></p>
 
-                {% for paragraph in article.body.split('.') %}
+                {% for paragraph in article.body.split('\n') %}
                 <p class="p">{{paragraph}}</p>
                 {% endfor %}
                 <div

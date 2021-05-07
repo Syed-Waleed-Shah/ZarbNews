@@ -8,9 +8,10 @@ import requests
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['HOST_URL'] = "http://demo.breakernews.net"
 db = SQLAlchemy(app)
-api_base = "http://127.0.0.1:5000/api/v1/"
-api_key = "TsMsvGDMLBbp-kKjSVqRiONSfja5Ocpf"
+api_base = "https://breakernews.net/api/v1/"
+api_key = "gWxn2GjLfqKkBzsWo9tJebCQ22Hl0pgd"
 
 languages = [
     {"name":"english", "code":'en', "text_justification":"right", "default_category":"latest"},
@@ -37,7 +38,7 @@ class News(db.Model):
 def fetchNews():
     # Looping through all languages to fetch news
     for language in languages:
-        response = requests.get(api_base + "news/50?key={0}&lang={1}".format(api_key, language['code']))
+        response = requests.get(api_base + "news/100?key={0}&lang={1}".format(api_key, language['code']))
         if response.status_code == 200:
             articles = response.json()
             for article in articles:
@@ -55,13 +56,16 @@ def fetchNews():
                     try:
                         db.session.add(news)
                         db.session.commit()
-                        url = "https://127.0.0.1:1111/post/" + id
+                        url = app.config.get('HOST_URL') + "/post/" + id
                         data = {"message": title + "\n" + url, "link":url,  "access_token":"EAALMC9xx9ToBAF2Dw4NSIZAroJ3kLYOvHqPsropOH7TBBINiVeHFLBTGwBl6YSf8aTxNDqxPCp1fPr74do9r12q2qZCHylVe4OZCOXCgypQqx6hj7eWYnXESzf64fXV0c6vNktRGXcDUUpq0udXpbttDJZAUYUEnt85707LH1wZDZD"}
                         response = requests.post(url="https://graph.facebook.com/105840371657222/feed", data=data)
+                        print("Job Executed Sucessfully:" + str(datetime.now()))
                     except:
                         print('DB Error')
+        else:
+            print("Error Response From API:", response.status_code)
+
     
-    print("Job Executed Sucessfully:" + str(datetime.now()))
 scheduler = APScheduler()
 scheduler.add_job(id='news fetcher', func = fetchNews, trigger = 'interval', seconds = 100)
 scheduler.start()
@@ -145,7 +149,7 @@ def home(language):
     langInfo = languageInfo(language) 
     if langInfo == None:
         return "<h1>404 Page Not Found</h1>"
-    articles = getNews(language, langInfo.get('default_category'))
+    articles = getNews(language)
     categories = getCategories(language)
     
     # categories = translateCategories(categories, langInfo.get('code'))
@@ -157,7 +161,6 @@ def category(language, category):
     # categoriesInfo = requests.get(api_base + '/news/categories?key=' + api_key + "&lang=" + language).json()
     # categories = categoriesInfo['categories']    
     # articles = requests.get(api_base + 'news/{0}/20?key={1}&lang={2}'.format(category + ",international", api_key, language))
-    category = category.replace('-', ' ')
     articles = getNews(language, category)
     categories = getCategories(language)
 
