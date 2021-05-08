@@ -1,0 +1,3 @@
+Flask-APScheduler
+Flask-SQLAlchemy
+requests

@@ -180,6 +180,10 @@ def details(article_id):
     categories = getCategories(language)
     return render_template('single-post.html', article = article, fromcategory=fromcategory, latest=latest, category=category, categories = categories, language=language, hideBreakingNews=True)
 
+@app.route("/dashboard")
+def admin():
+    return render_template('dashboard.html')
+
 @app.route('/test/categories/<language>')
 def test_categories(language):
     return jsonify(getCategories(language))
