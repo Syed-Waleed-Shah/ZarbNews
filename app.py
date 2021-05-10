@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, Response, request, 
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
 from datetime import datetime
+import time
 import secrets
 import requests
 
@@ -20,25 +21,16 @@ languages = [
 ]
 
 
-
-
-class News(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    url_id = db.Column(db.String)
-    title = db.Column(db.String)
-    body = db.Column(db.String)
-    category = db.Column(db.String(30))
-    imageUrl = db.Column(db.String)
-    language = db.Column(db.String(20))
-    date = db.Column(db.String)
-
 # ---------------------------------------------------------------------
 # SCHEDULED JOB TO FETCH NEWS PERIODICALLY FROM breakernews API
 # ---------------------------------------------------------------------
 def fetchNews():
     # Looping through all languages to fetch news
+    languages = languagesInfo()
     for language in languages:
-        response = requests.get(api_base + "news/100?key={0}&lang={1}".format(api_key, language['code']))
+        code = language.get("code")
+        name = language.get("name")
+        response = requests.get(api_base + "news/100?key={0}&lang={1}".format(api_key, code))
         if response.status_code == 200:
             articles = response.json()
             for article in articles:
@@ -47,29 +39,57 @@ def fetchNews():
                 category = article.get('category')
                 imageUrl = article.get('imageUrl')
                 date = article.get('date')
-                id = secrets.token_urlsafe(16)
-                news = News(url_id=id, title=title, body=body, category=category, imageUrl=imageUrl, language=language['name'], date=date)
-
-                # Before adding news in database checking whether news already exists in database
-                result = News.query.filter(News.title==title, News.imageUrl==imageUrl).all()
-                if len(result) < 1:
+                url_id = secrets.token_urlsafe(16)
+                
+                if newsExists(title) == False:
                     try:
-                        db.session.add(news)
-                        db.session.commit()
-                        url = app.config.get('HOST_URL') + "/post/" + id
-                        data = {"message": title + "\n" + url, "link":url,  "access_token":"EAALMC9xx9ToBAF2Dw4NSIZAroJ3kLYOvHqPsropOH7TBBINiVeHFLBTGwBl6YSf8aTxNDqxPCp1fPr74do9r12q2qZCHylVe4OZCOXCgypQqx6hj7eWYnXESzf64fXV0c6vNktRGXcDUUpq0udXpbttDJZAUYUEnt85707LH1wZDZD"}
-                        response = requests.post(url="https://graph.facebook.com/105840371657222/feed", data=data)
-                        print("Job Executed Sucessfully:" + str(datetime.now()))
-                    except:
-                        print('DB Error')
+                        addNews(url_id, title, body, category, imageUrl, name, date)
+                        time.sleep(10)
+                        # url = app.config.get('HOST_URL') + "/post/" + id
+                        # data = {"message": title + "\n" + url, "link":url,  "access_token":"EAALMC9xx9ToBAF2Dw4NSIZAroJ3kLYOvHqPsropOH7TBBINiVeHFLBTGwBl6YSf8aTxNDqxPCp1fPr74do9r12q2qZCHylVe4OZCOXCgypQqx6hj7eWYnXESzf64fXV0c6vNktRGXcDUUpq0udXpbttDJZAUYUEnt85707LH1wZDZD"}
+                        # response = requests.post(url="https://graph.facebook.com/105840371657222/feed", data=data)
+                        print("News Added:" + title)
+                    except Exception as e:
+                        print('DB Error', e)
         else:
             print("Error Response From API:", response.status_code)
 
+def postToFacebook():
+    languages = languagesInfo()
+    for language in languages:
+        
+        if language.get('socialmedia').get('facebook') != None:
+            lang_name = language.get('name')
+            params = {"language":lang_name}
+            row = db.session.execute("""SELECT id, url_id, title from news WHERE DATE(news.current_time) >= DATE('now') AND DATE(news.current_time) < DATE('now', '+1 day') AND language=:language AND posted_to_fb = 0 ORDER BY current_time desc LIMIT 1;""", params).fetchone()
+            if row:
+                id = row[0]
+                url_id = row[1]
+                title = row[2]
+
+                url = app.config.get('HOST_URL') + "/post/" + url_id
+                access_token = language.get("socialmedia").get("facebook").get("access_token")
+                page_id = language.get("socialmedia").get("facebook").get("page_id")
+                data = {"message": title + "\n" + url, "link":url,  "access_token":access_token}
+                response = requests.post(url="https://graph.facebook.com/{0}/feed".format(page_id), data=data)
+                if response.status_code == 200:
+                    print("Posted To Facebook:", title)
+                    markAsPostedToFb(id)
+                else:
+                    print(">>Failed To Post To Facebook:",response.json(),title)
+
+                time.sleep(10)
     
 scheduler = APScheduler()
-scheduler.add_job(id='news fetcher', func = fetchNews, trigger = 'interval', seconds = 100)
+scheduler.add_job(id='news fetcher', func = fetchNews, trigger = 'interval', seconds = 300)
+scheduler.add_job(id='post to fb', func = postToFacebook, trigger = 'interval', seconds = 300)
 scheduler.start()
 
+
+def markAsPostedToFb(id):
+    params = {"id":id}
+    db.session.execute("""UPDATE news set posted_to_fb=true where id=:id""", params)
+    db.session.commit()
 
 def getNews(language, category=None, count=20):
     if category != None:
@@ -105,11 +125,63 @@ def getCategories(language):
     # result = db.session.query(News.category.distinct())
     return [value[0] for value in result]
 
+def languagesInfo():
+    rows = db.session.execute("""select id, name, code from languages""")
+    output = []
+    for row in rows:
+        output.append({
+            "id":row[0],
+            "name":row[1],
+            "code":row[2],
+            "socialmedia":{"facebook":facebookInfo(row[0])}
+        })
+
+    return output
+
 def languageInfo(language_name):
-    for lang in languages:
-        if lang.get('name') == language_name:
-            return lang
-    return None
+    params = {"language":language_name}
+    rows = db.session.execute("""select id, name, code from languages where name = :language""", params)
+    output = []
+    for row in rows:
+        output.append({
+            "id":row[0],
+            "name":row[1],
+            "code":row[2],
+            "socialmedia":{"facebook":facebookInfo(row[0])}
+        })
+
+    return output
+
+def facebookInfo(language_id):
+    params = {"id":language_id}
+    rows = db.session.execute("""SELECT id,page_id,access_token from facebook where language_id=:id""", params).fetchall()
+    if len(rows) == 0:
+        return None
+    
+    return {        
+        "id":rows[0][0],
+        "page_id":rows[0][1],
+        "access_token":rows[0][2]
+    }
+
+
+
+def addNews(url_id, title, body, category, imageUrl, language, date):
+    params = {"url_id":url_id, "title":title, "body":body, "category":category, "imageUrl":imageUrl, "language":language, "date":date}
+    db.session.execute("INSERT INTO news(url_id, title, body, category, imageUrl, language, date) values(:url_id, :title, :body, :category, :imageUrl, :language, :date)", params)
+    db.session.commit()
+    return True
+
+
+def newsExists(title):
+    params = {"title":title}
+    result = db.session.execute("SELECT * from news where title=:title", params)
+    rows = result.fetchall()
+    if len(rows) > 0:
+        return True
+    
+    return False
+
 
 def joinList(lst, sep=','):
     result = ''
@@ -129,7 +201,23 @@ def translateCategories(categories, lang_code):
 
     return output
 
+def updateLanguageInfo(id, name, code):
+    params = {"id":id, "name":name, "code":code}
+    db.session.execute("UPDATE languages set name=:name, code=:code where id=:id", params)
+    db.session.commit()
+    return True
 
+def updateFacebookPageInfo(id, page_id, access_token):
+    params = {"id":id, "page_id":page_id, "access_token":access_token}
+    db.session.execute("UPDATE facebook set page_id=:page_id, access_token=:access_token where id=:id", params)
+    db.session.commit()
+    return True
+
+def addFacebookPageInfo(id, language_id, page_id, access_token):
+    params = {"id":id, "language_id":language_id, "page_id":page_id, "access_token":access_token}
+    db.session.execute("INSERT INTO facebook(page_id, access_token, language_id) values(:page_id, :access_token, :language_id) ", params)
+    db.session.commit()
+    return True
 
 @app.route('/')
 def index():
@@ -180,9 +268,33 @@ def details(article_id):
     categories = getCategories(language)
     return render_template('single-post.html', article = article, fromcategory=fromcategory, latest=latest, category=category, categories = categories, language=language, hideBreakingNews=True)
 
-@app.route("/dashboard")
-def admin():
-    return render_template('dashboard.html')
+@app.route("/dashboard", methods=["GET","POST"])
+def admin():    
+
+    if request.method == "POST" and request.form.get("language"):        
+        id = request.form.get("id")
+        name = request.form.get("name")
+        code = request.form.get("code")
+        updateLanguageInfo(id, name, code)
+
+    elif request.method == "POST" and request.form.get("facebook"):        
+        id = request.form.get("id")
+        language_id = request.form.get("language_id")
+        page_id = request.form.get("page_id")
+        access_token = request.form.get("access_token")
+
+        # Case of creating new facebook page information
+        if id == "":
+            addFacebookPageInfo(id,language_id,page_id,access_token)
+        # Case of updating facebook page information
+        else:
+            updateFacebookPageInfo(id, page_id, access_token)
+        
+
+
+
+    langInfo = languagesInfo()
+    return render_template('dashboard.html', languagesInfo=langInfo)
 
 @app.route('/test/categories/<language>')
 def test_categories(language):
@@ -191,6 +303,10 @@ def test_categories(language):
 @app.route('/test/article/<title>')
 def test_article(title):
     return jsonify(getArticle(title))
+
+@app.route('/app/test/languageinfo')
+def test_languageinfo():
+    return jsonify(languagesInfo())
 
 @app.route('/private/query/database/<query>')
 def exec_query(query):
