@@ -108,6 +108,15 @@ def getNews(language, category=None, count=20):
 
     return output
 
+
+def getNewsCategorically(language, categories, count):
+    output = []
+    for category in categories:
+        articles = getNews(language, category, count)
+        output.append({"category":category, "articles":articles})
+
+    return output
+
        
 
 def getArticle(id):
@@ -237,11 +246,12 @@ def home(language):
     langInfo = languageInfo(language) 
     if langInfo == None:
         return "<h1>404 Page Not Found</h1>"
-    articles = getNews(language)
+    articles = getNews(language, count=18)
     categories = getCategories(language)
+    articles2 = getNewsCategorically(language, categories, 4)
     
     # categories = translateCategories(categories, langInfo.get('code'))
-    return render_template('index2.html', articles = articles, categories = categories, language=language) 
+    return render_template('index2.html', articles = articles, articles2=articles2, categories = categories, language=language) 
 
 
 @app.route("/<language>/<category>/")
@@ -270,31 +280,33 @@ def details(article_id):
 
 @app.route("/dashboard", methods=["GET","POST"])
 def admin():    
+    if request.args.get("username") == "syedwaleedshah" and request.args.get("password") == "usingsystem.dashboard":
+        if request.method == "POST" and request.form.get("language"):        
+            id = request.form.get("id")
+            name = request.form.get("name")
+            code = request.form.get("code")
+            updateLanguageInfo(id, name, code)
 
-    if request.method == "POST" and request.form.get("language"):        
-        id = request.form.get("id")
-        name = request.form.get("name")
-        code = request.form.get("code")
-        updateLanguageInfo(id, name, code)
+        elif request.method == "POST" and request.form.get("facebook"):        
+            id = request.form.get("id")
+            language_id = request.form.get("language_id")
+            page_id = request.form.get("page_id")
+            access_token = request.form.get("access_token")
 
-    elif request.method == "POST" and request.form.get("facebook"):        
-        id = request.form.get("id")
-        language_id = request.form.get("language_id")
-        page_id = request.form.get("page_id")
-        access_token = request.form.get("access_token")
-
-        # Case of creating new facebook page information
-        if id == "":
-            addFacebookPageInfo(id,language_id,page_id,access_token)
-        # Case of updating facebook page information
-        else:
-            updateFacebookPageInfo(id, page_id, access_token)
-        
+            # Case of creating new facebook page information
+            if id == "":
+                addFacebookPageInfo(id,language_id,page_id,access_token)
+            # Case of updating facebook page information
+            else:
+                updateFacebookPageInfo(id, page_id, access_token)
+            
 
 
 
-    langInfo = languagesInfo()
-    return render_template('dashboard.html', languagesInfo=langInfo)
+        langInfo = languagesInfo()
+        return render_template('dashboard.html', languagesInfo=langInfo)
+    else:
+        return "<h1>Page Not Found<h1>"
 
 @app.route('/test/categories/<language>')
 def test_categories(language):

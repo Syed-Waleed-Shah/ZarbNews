@@ -2,11 +2,11 @@
 <div class="featured-post-area">
   <div class="container">
     <div class="row">
-      <div class="col-12 col-md-6 col-lg-8">
+      <div class="col-12">
         <div class="row">
           {% for article in articles %}
           <!-- Main posts -->
-          <div class="col-12 col-md-6">
+          <div class="col-12 col-md-6 col-lg-4 p-2">
             <div class="single-blog-post style-3">
               <div class="post-thumb">
                 <a href="/post/{{article.id}}"
@@ -38,9 +38,22 @@
           {% endfor %}
         </div>
       </div>
-      <div class="col-12 col-md-6 col-lg-4">
-        {% for article in articles %}
-        <!-- Small side posts -->
+    </div>
+  </div>
+</div>
+<div class="featured-post-area py-4 bg-dark">
+  <div class="container">
+    <div class="row">
+      {% for categorywise in articles2 %}
+      <div
+        class="col-12 mb-3 text-white font-weight-bold"
+        style="font-size: 1.2rem"
+      >
+        {{categorywise.category.capitalize()}} News
+      </div>
+      {% for article in categorywise.articles %}
+      <!-- Small side posts -->
+      <div class="col-12 col-md-6 col-lg-6">
         <div class="single-blog-post small-featured-post d-flex">
           <div class="post-thumb">
             <a href="/post/{{article.id}}"
@@ -52,9 +65,7 @@
             /></a>
           </div>
           <div class="post-data">
-            <a
-              href="/{{language}}/{{article.category}}"
-              class="urdu-p post-catagory"
+            <a href="/{{language}}/{{article.category}}" class="post-catagory"
               >{{article.category.capitalize()}}</a
             >
             <div class="post-meta">
@@ -67,9 +78,15 @@
             </div>
           </div>
         </div>
-        {% endfor %}
 
-        <div class="newsletter-widget mt-4">
+        <br />
+      </div>
+      {% endfor %}
+      <div style="height: 10px; width: 100%"></div>
+      <!-- <a class="btn btn-primary ml-auto mr-auto" href="">More News</a> -->
+      {% endfor %}
+
+      <!-- <div class="newsletter-widget mt-4">
           <h4>Newsletter</h4>
           <p>
             Orci varius natoque penatibus et magnis dis parturient montes,
@@ -80,8 +97,7 @@
             <input type="email" name="email" placeholder="Email" />
             <button type="submit" class="btn w-100">Subscribe</button>
           </form>
-        </div>
-      </div>
+        </div> -->
     </div>
   </div>
 </div>
