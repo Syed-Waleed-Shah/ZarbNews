@@ -14,11 +14,16 @@
                 /></a>
               </div>
               <div class="post-data">
-                <a
-                  href="/{{language}}/{{article.category}}"
-                  class="post-catagory"
-                  >{{article.category.capitalize()}}</a
-                >
+                <div class="d-flex justify-content-between px-2">
+                  <a
+                    href="/{{language}}/{{article.category}}"
+                    class="post-catagory"
+                    >{{article.category.capitalize()}}
+                  </a>
+                  <span class="text-secondary font-weight-bold"
+                    >{{article.date}}</span
+                  >
+                </div>
                 <a href="/post/{{article.id}}" class="post-title urdu-h2">
                   <h2 class="h2">{{article.title}}</h2>
                 </a>

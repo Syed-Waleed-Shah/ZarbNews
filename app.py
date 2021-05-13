@@ -1,7 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, Response, request, jsonify
+from flask import Flask, render_template, redirect, url_for, Response, request, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
 from datetime import datetime
+from datetime import timedelta
 import time
 import secrets
 import requests
@@ -94,17 +95,17 @@ def markAsPostedToFb(id):
 def getNews(language, category=None, count=20):
     if category != None:
         params = {"language":language, "category":category, "count":count}
-        result = db.session.execute("""SELECT url_id, title, date, imageUrl, category from news where language=:language and category=:category ORDER BY id DESC LIMIT :count""", params)
+        result = db.session.execute("""SELECT url_id, title, date, imageUrl, category, current_time from news where language=:language and category=:category ORDER BY id DESC LIMIT :count""", params)
     else:
         params = {"language":language, "count":count}
-        result = db.session.execute("""SELECT url_id, title, date, imageUrl, category from news where language=:language ORDER BY id DESC LIMIT :count""", params)
+        result = db.session.execute("""SELECT url_id, title, date, imageUrl, category, current_time from news where language=:language ORDER BY id DESC LIMIT :count""", params)
     rows = result.fetchall()
     output = []
     if rows == None:
         return None
 
     for row in rows:
-        output.append({"id":row[0], "title":row[1], "date":row[2], "imageUrl":row[3], "category":row[4]})
+        output.append({"id":row[0], "title":row[1], "date":row[2], "imageUrl":row[3], "category":row[4], "dateRaw":row[5]})
 
     return output
 
@@ -120,12 +121,12 @@ def getNewsCategorically(language, categories, count):
        
 
 def getArticle(id):
-    result = db.session.execute("""SELECT url_id, title, body, date, imageUrl, category, language from news where url_id=:id""", {"id":id})
+    result = db.session.execute("""SELECT url_id, title, body, date, imageUrl, category, language, current_time from news where url_id=:id""", {"id":id})
     row = result.fetchone()
     if row == None:
         return None
     return {
-        "id":row[0], "title":row[1], "body":row[2], "date":row[3], "imageUrl":row[4], "category":row[5], "language":row[6]
+        "id":row[0], "title":row[1], "body":row[2], "date":row[3], "imageUrl":row[4], "category":row[5], "language":row[6], "dateRaw":row[7]
     }
 
 
@@ -172,6 +173,22 @@ def facebookInfo(language_id):
         "page_id":rows[0][1],
         "access_token":rows[0][2]
     }
+
+def getLanguagesNames():
+    result = db.session.execute("""SELECT DISTINCT name from languages""")
+    # result = db.session.query(News.category.distinct())
+    return [value[0] for value in result]
+
+def languagesAndCategories():
+    output = []
+    languagesNames = getLanguagesNames()
+    for languageName in languagesNames:        
+        categories = getCategories(languageName)
+        output.append({"name":languageName, "categories":categories})
+
+    return output
+
+
 
 
 
@@ -232,6 +249,27 @@ def addFacebookPageInfo(id, language_id, page_id, access_token):
 def index():
     return redirect('/english')
 
+@app.route('/sitemap.xml', methods=['GET'])
+def sitemapindex():   
+    host = request.host_url
+    languages = languagesInfo()
+    sitemap_index = render_template('sitemap_index.xml', host=host, languages=languages)
+    response= make_response(sitemap_index)
+    response.headers["Content-Type"] = "application/xml"    
+
+    return response 
+
+@app.route('/<language>/sitemap.xml', methods=['GET'])
+def sitemap(language):
+    articles = getNews(language, count=1000)
+    host = request.host_url
+    
+    sitemap = render_template('sitemap.xml', host=host, articles=articles)
+    response= make_response(sitemap)
+    response.headers["Content-Type"] = "application/xml" 
+
+    return response
+
 @app.route('/<language>/')
 def home(language):    
     # response = requests.get(api_base + '/news/categories?key=' + api_key + "&lang=" + language)
@@ -249,9 +287,9 @@ def home(language):
     articles = getNews(language, count=18)
     categories = getCategories(language)
     articles2 = getNewsCategorically(language, categories, 4)
-    
+    footer = languagesAndCategories()
     # categories = translateCategories(categories, langInfo.get('code'))
-    return render_template('index2.html', articles = articles, articles2=articles2, categories = categories, language=language) 
+    return render_template('index2.html', articles = articles, articles2=articles2, categories = categories, language=language, footer=footer) 
 
 
 @app.route("/<language>/<category>/")
@@ -261,8 +299,8 @@ def category(language, category):
     # articles = requests.get(api_base + 'news/{0}/20?key={1}&lang={2}'.format(category + ",international", api_key, language))
     articles = getNews(language, category)
     categories = getCategories(language)
-
-    return render_template('category.html', articles = articles, categoryName = category, categories = categories, language=language)
+    footer = languagesAndCategories()
+    return render_template('category.html', articles = articles, categoryName = category, categories = categories, language=language, footer=footer)
 
 @app.route("/post/<article_id>")
 def details(article_id):
@@ -276,7 +314,8 @@ def details(article_id):
     fromcategory = getNews(language=language, category=category, count=8)
     latest = getNews(language=language, count=12)
     categories = getCategories(language)
-    return render_template('single-post.html', article = article, fromcategory=fromcategory, latest=latest, category=category, categories = categories, language=language, hideBreakingNews=True)
+    footer = languagesAndCategories()
+    return render_template('single-post.html', article = article, fromcategory=fromcategory, latest=latest, category=category, categories = categories, language=language, hideBreakingNews=True, footer=footer)
 
 @app.route("/dashboard", methods=["GET","POST"])
 def admin():    
@@ -307,6 +346,13 @@ def admin():
         return render_template('dashboard.html', languagesInfo=langInfo)
     else:
         return "<h1>Page Not Found<h1>"
+
+
+   
+
+@app.route("/google-trends")
+def googletrends():
+    return render_template("google-trends.html")
 
 @app.route('/test/categories/<language>')
 def test_categories(language):
@@ -357,4 +403,4 @@ def urdu_test():
 
 
 if __name__ == '__main__':    
-    app.run(debug=True, port=1111)
+    app.run(debug=True, port=5001)

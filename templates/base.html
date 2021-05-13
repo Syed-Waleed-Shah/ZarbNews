@@ -2,6 +2,13 @@
 <html>
   <!-- Mirrored from preview.colorlib.com/theme/newspaper/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 08 Mar 2021 15:31:03 GMT -->
   <head>
+    <!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PZB56DN');</script>
+<!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
     <meta name="description" content="" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -40,6 +47,10 @@
     {% block head %} {% endblock %}
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PZB56DN"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
     <header class="header-area">
       <div class="top-header-area">
         <div class="container">
@@ -255,68 +266,33 @@
                 </ul>
               </div>
             </div>
-
-            <div class="col-12 col-sm-6 col-lg-2">
+            {% for languageInfo in footer[:3]%}
+             <div class="col-12 col-sm-6 col-lg-2">
               <div class="footer-widget-area mt-80">
-                <h4 class="widget-title">Politics</h4>
+                <h4 class="widget-title">{{languageInfo.name}}</h4>
 
                 <ul class="list">
-                  <li><a href="#">Business</a></li>
-                  <li><a href="#">Markets</a></li>
-                  <li><a href="#">Tech</a></li>
-                  <li><a href="#">Luxury</a></li>
+                  {% for category in languageInfo.categories %}
+                  <li><a href="#">{{category}}</a></li>
+                  {% endfor %}
                 </ul>
               </div>
             </div>
-
-            <div class="col-12 col-sm-4 col-lg-2">
-              <div class="footer-widget-area mt-80">
-                <h4 class="widget-title">Featured</h4>
-
-                <ul class="list">
-                  <li><a href="#">Football</a></li>
-                  <li><a href="#">Golf</a></li>
-                  <li><a href="#">Tennis</a></li>
-                  <li><a href="#">Motorsport</a></li>
-                  <li><a href="#">Horseracing</a></li>
-                  <li><a href="#">Equestrian</a></li>
-                  <li><a href="#">Sailing</a></li>
-                  <li><a href="#">Skiing</a></li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="col-12 col-sm-4 col-lg-2">
-              <div class="footer-widget-area mt-80">
-                <h4 class="widget-title">FAQ</h4>
-
-                <ul class="list">
-                  <li><a href="#">Aviation</a></li>
-                  <li><a href="#">Business</a></li>
-                  <li><a href="#">Traveller</a></li>
-                  <li><a href="#">Destinations</a></li>
-                  <li><a href="#">Features</a></li>
-                  <li><a href="#">Food/Drink</a></li>
-                  <li><a href="#">Hotels</a></li>
-                  <li><a href="#">Partner Hotels</a></li>
-                </ul>
-              </div>
-            </div>
+            {% endfor %}
+           
 
             <div class="col-12 col-sm-4 col-lg-2">
               <div class="footer-widget-area mt-80">
                 <h4 class="widget-title">+More</h4>
 
                 <ul class="list">
-                  <li><a href="#">Fashion</a></li>
-                  <li><a href="#">Design</a></li>
-                  <li><a href="#">Architecture</a></li>
-                  <li><a href="#">Arts</a></li>
-                  <li><a href="#">Autos</a></li>
-                  <li><a href="#">Luxury</a></li>
+                  {% for languageInfo in footer[3:]%}
+                  <li><a href="#">{{languageInfo.name}}</a></li>  
+                  {% endfor %}                
                 </ul>
               </div>
             </div>
+          
           </div>
         </div>
       </div>

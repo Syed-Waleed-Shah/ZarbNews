@@ -1,10 +1,74 @@
 {% extends 'base.html' %} {% block head %}
+
 <meta property="og:title" content="{{article.title}}" />
 <!-- <meta property="og:url" content="" /> -->
 <meta property="og:image" content="{{article.imageUrl}}" />
 <!-- <meta property="og:description" content="ShareThis is its people. It's imperative that we hire smart,innovative people who can work intelligently as we continue to disrupt the very category we created. Come join us!" /> -->
 <!-- <meta property="og:site_name" content="" /> -->
 
+<!-- NewsArticle Schema -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "/post/{{article.id}}"
+    },
+    "headline": "{{article.title}}",
+    "image": ["{{article.imageUrl}}"],
+    "datePublished": "{{article.dateRaw}}",
+    "dateModified": "{{article.dateRaw}}",
+    "author": {
+      "@type": "Person",
+      "name": "The Analyst"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "The Analyst",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "/static/images/logos/logo-{{language}}.svg"
+      }
+    },
+    "description": "{{article.body}}"
+  }
+</script>
+
+<!-- Article Schema -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{article.title}}",
+    "alternativeHeadline": "{{article.body.split('\n')[0]}}",
+    "image": "{{article.imageUrl}}",
+    "author": "The Analyst",
+    "award": "Top {{article.language}} news website",
+    "editor": "The Analyst",
+    "genre": "{{article.title}}",
+    "keywords": "{{article.body.split(' ')}}",
+    "wordcount": "100",
+    "publisher": {
+      "@type": "Organization",
+      "name": "The Analyst",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "/static/images/logos/logo-{{language}}.svg"
+      }
+    },
+    "url": "/post/{{article.id}}",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "/post/{{article.id}}"
+    },
+    "datePublished": "{{article.dateRaw}}",
+    "dateCreated": "{{article.dateRaw}}",
+    "dateModified": "{{article.dateRaw}}",
+    "description": "{{article.body.split('\n')[0]}}",
+    "articleBody": "{{article.body}}"
+  }
+</script>
 {% endblock %} {% block body %}
 
 <div class="container">
@@ -41,7 +105,12 @@
                 <p class="p">{{paragraph}}</p>
                 {% endfor %}
                 <div
-                  class="newspaper-post-like d-flex align-items-center justify-content-between"
+                  class="
+                    newspaper-post-like
+                    d-flex
+                    align-items-center
+                    justify-content-between
+                  "
                 >
                   <!-- <div class="newspaper-tags d-flex">
                     <span>Tags:</span>
