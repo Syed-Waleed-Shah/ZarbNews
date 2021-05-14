@@ -95,10 +95,10 @@ def markAsPostedToFb(id):
 def getNews(language, category=None, count=20):
     if category != None:
         params = {"language":language, "category":category, "count":count}
-        result = db.session.execute("""SELECT url_id, title, date, imageUrl, category, current_time from news where language=:language and category=:category ORDER BY id DESC LIMIT :count""", params)
+        result = db.session.execute("""SELECT url_id, title, date, imageUrl, category, news.current_time from news where language=:language and category=:category ORDER BY id DESC LIMIT :count""", params)
     else:
         params = {"language":language, "count":count}
-        result = db.session.execute("""SELECT url_id, title, date, imageUrl, category, current_time from news where language=:language ORDER BY id DESC LIMIT :count""", params)
+        result = db.session.execute("""SELECT url_id, title, date, imageUrl, category, news.current_time from news where language=:language ORDER BY id DESC LIMIT :count""", params)
     rows = result.fetchall()
     output = []
     if rows == None:
@@ -121,7 +121,7 @@ def getNewsCategorically(language, categories, count):
        
 
 def getArticle(id):
-    result = db.session.execute("""SELECT url_id, title, body, date, imageUrl, category, language, current_time from news where url_id=:id""", {"id":id})
+    result = db.session.execute("""SELECT url_id, title, body, date, imageUrl, category, language, news.current_time from news where url_id=:id""", {"id":id})
     row = result.fetchone()
     if row == None:
         return None
