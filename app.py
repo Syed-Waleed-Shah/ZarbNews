@@ -95,17 +95,17 @@ def markAsPostedToFb(id):
 def getNews(language, category=None, count=20):
     if category != None:
         params = {"language":language, "category":category, "count":count}
-        result = db.session.execute("""SELECT url_id, title, date, imageUrl, category, news.current_time from news where language=:language and category=:category ORDER BY id DESC LIMIT :count""", params)
+        result = db.session.execute("""SELECT url_id, title, date, imageUrl, category, DATE(news.current_time), news.current_time from news where language=:language and category=:category ORDER BY id DESC LIMIT :count""", params)
     else:
         params = {"language":language, "count":count}
-        result = db.session.execute("""SELECT url_id, title, date, imageUrl, category, news.current_time from news where language=:language ORDER BY id DESC LIMIT :count""", params)
+        result = db.session.execute("""SELECT url_id, title, date, imageUrl, category, DATE(news.current_time), news.current_time from news where language=:language ORDER BY id DESC LIMIT :count""", params)
     rows = result.fetchall()
     output = []
     if rows == None:
         return None
 
     for row in rows:
-        output.append({"id":row[0], "title":row[1], "date":row[2], "imageUrl":row[3], "category":row[4], "dateRaw":row[5]})
+        output.append({"id":row[0], "title":row[1], "date":row[2], "imageUrl":row[3], "category":row[4], "dateRaw":row[5], "datetimeRaw":row[6]})
 
     return output
 
@@ -121,12 +121,12 @@ def getNewsCategorically(language, categories, count):
        
 
 def getArticle(id):
-    result = db.session.execute("""SELECT url_id, title, body, date, imageUrl, category, language, news.current_time from news where url_id=:id""", {"id":id})
+    result = db.session.execute("""SELECT url_id, title, body, date, imageUrl, category, language, DATE(news.current_time), news.current_time from news where url_id=:id""", {"id":id})
     row = result.fetchone()
     if row == None:
         return None
     return {
-        "id":row[0], "title":row[1], "body":row[2], "date":row[3], "imageUrl":row[4], "category":row[5], "language":row[6], "dateRaw":row[7]
+        "id":row[0], "title":row[1], "body":row[2], "date":row[3], "imageUrl":row[4], "category":row[5], "language":row[6], "dateRaw":row[7], "datetimeRaw":row[8]
     }
 
 
