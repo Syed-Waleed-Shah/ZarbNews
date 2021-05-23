@@ -317,7 +317,7 @@ textarea:focus {
 .header-area .top-header-area {
   width: 100%;
   height: 100px;
-  background-color: #3a2727;
+  background-color: #d82244;
   position: relative;
   z-index: 1;
 }
@@ -334,7 +334,6 @@ textarea:focus {
 .header-area .top-header-area .top-header-content {
   width: 100%;
   height: 100px;
-  background-color: #3a2727;
   position: relative;
   z-index: 1;
 }
@@ -621,7 +620,7 @@ textarea:focus {
 .hero-area {
   position: relative;
   z-index: 1;
-  padding: 50px 0 80px;
+  padding: 20px 0 20px;
 }
 .hero-area .breaking-news-area {
   position: relative;

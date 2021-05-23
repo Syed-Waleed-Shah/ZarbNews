@@ -111,6 +111,18 @@
               <ul class="navbar-nav flex-column">
                 <li class="nav-item">
                   <a
+                    class="nav-link"
+                    href="https://prium.github.io/falcon/v2.8.2/default/chat.html"
+                  >
+                    <div class="d-flex align-items-center">
+                      <span class="nav-link-icon"
+                        ><span class="fas fa-comments"></span></span
+                      ><span class="nav-link-text">Home</span>
+                    </div>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
                     class="nav-link dropdown-indicator"
                     href="#home"
                     data-toggle="collapse"
@@ -121,56 +133,43 @@
                     <div class="d-flex align-items-center">
                       <span class="nav-link-icon"
                         ><span class="fas fa-chart-pie"></span></span
-                      ><span class="nav-link-text">Home</span>
+                      ><span class="nav-link-text">News Articles</span>
                     </div>
                   </a>
                   <ul
-                    class="nav collapse show"
+                    class="nav collapse"
                     id="home"
                     data-parent="#navbarVerticalCollapse"
                   >
+                    {% for langInfo in languagesInfo %}
                     <li class="nav-item">
                       <a
                         class="nav-link"
-                        href="https://prium.github.io/falcon/v2.8.2/default/index.html"
-                        >Dashboard</a
+                        href="/dashboard/articles/{{langInfo.name}}"
+                        >{{langInfo.name}}</a
                       >
                     </li>
-                    <li class="nav-item active">
-                      <a class="nav-link" href="dashboard-alt.html"
-                        >Dashboard alt</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="feed.html">Feed</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="landing.html">Landing</a>
-                    </li>
+                    {% endfor %}
                   </ul>
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link"
-                    href="https://prium.github.io/falcon/v2.8.2/default/chat.html"
-                  >
-                    <div class="d-flex align-items-center">
-                      <span class="nav-link-icon"
-                        ><span class="fas fa-comments"></span></span
-                      ><span class="nav-link-text"> Chat</span>
-                    </div>
-                  </a>
                 </li>
               </ul>
             </div>
           </div>
         </nav>
         <nav
-          class="navbar navbar-light navbar-glass navbar-top sticky-kit navbar-expand-lg"
+          class="
+            navbar navbar-light navbar-glass navbar-top
+            sticky-kit
+            navbar-expand-lg
+          "
           style="display: none"
         >
           <button
-            class="btn navbar-toggler-humburger-icon navbar-toggler mr-1 mr-sm-3"
+            class="
+              btn
+              navbar-toggler-humburger-icon navbar-toggler
+              mr-1 mr-sm-3
+            "
             type="button"
             data-toggle="collapse"
             data-target="#navbarStandard"
@@ -196,7 +195,12 @@
             </div>
           </a>
           <ul
-            class="navbar-nav navbar-nav-icons ml-auto flex-row align-items-center"
+            class="
+              navbar-nav navbar-nav-icons
+              ml-auto
+              flex-row
+              align-items-center
+            "
           >
             <li class="nav-item d-none d-md-block">
               <a
@@ -246,7 +250,14 @@
             </li>
             <li class="nav-item">
               <a
-                class="nav-link px-0 notification-indicator notification-indicator-warning notification-indicator-fill icon-indicator"
+                class="
+                  nav-link
+                  px-0
+                  notification-indicator
+                  notification-indicator-warning
+                  notification-indicator-fill
+                  icon-indicator
+                "
                 href="https://prium.github.io/falcon/v2.8.2/default/e-commerce/shopping-cart.html"
                 ><span
                   class="fas fa-shopping-cart fs-4"
@@ -257,7 +268,12 @@
             </li>
             <li class="nav-item dropdown dropdown-on-hover">
               <a
-                class="nav-link notification-indicator notification-indicator-primary px-0 icon-indicator"
+                class="
+                  nav-link
+                  notification-indicator notification-indicator-primary
+                  px-0
+                  icon-indicator
+                "
                 id="navbarDropdownNotification"
                 href="#"
                 role="button"
@@ -437,11 +453,19 @@
         </nav>
         <div class="content">
           <nav
-            class="navbar navbar-light navbar-glass navbar-top sticky-kit navbar-expand"
+            class="
+              navbar navbar-light navbar-glass navbar-top
+              sticky-kit
+              navbar-expand
+            "
             style="display: none"
           >
             <button
-              class="btn navbar-toggler-humburger-icon navbar-toggler mr-1 mr-sm-3"
+              class="
+                btn
+                navbar-toggler-humburger-icon navbar-toggler
+                mr-1 mr-sm-3
+              "
               type="button"
               data-toggle="collapse"
               data-target="#navbarVerticalCollapse"
@@ -539,7 +563,13 @@
                       >
                         <div class="d-flex align-items-center">
                           <span
-                            class="badge font-weight-medium text-decoration-none mr-2 badge-soft-warning"
+                            class="
+                              badge
+                              font-weight-medium
+                              text-decoration-none
+                              mr-2
+                              badge-soft-warning
+                            "
                             >customers:</span
                           >
                           <div class="flex-1 fs--1">All customers list</div>
@@ -551,7 +581,13 @@
                       >
                         <div class="d-flex align-items-center">
                           <span
-                            class="badge font-weight-medium text-decoration-none mr-2 badge-soft-success"
+                            class="
+                              badge
+                              font-weight-medium
+                              text-decoration-none
+                              mr-2
+                              badge-soft-success
+                            "
                             >events:</span
                           >
                           <div class="flex-1 fs--1">
@@ -565,7 +601,13 @@
                       >
                         <div class="d-flex align-items-center">
                           <span
-                            class="badge font-weight-medium text-decoration-none mr-2 badge-soft-info"
+                            class="
+                              badge
+                              font-weight-medium
+                              text-decoration-none
+                              mr-2
+                              badge-soft-info
+                            "
                             >products:</span
                           >
                           <div class="flex-1 fs--1">Most popular products</div>
@@ -675,7 +717,12 @@
               </li>
             </ul>
             <ul
-              class="navbar-nav navbar-nav-icons ml-auto flex-row align-items-center"
+              class="
+                navbar-nav navbar-nav-icons
+                ml-auto
+                flex-row
+                align-items-center
+              "
             >
               <li class="nav-item d-none d-md-block">
                 <a
@@ -713,7 +760,14 @@
               </li>
               <li class="nav-item">
                 <a
-                  class="nav-link px-0 notification-indicator notification-indicator-warning notification-indicator-fill icon-indicator"
+                  class="
+                    nav-link
+                    px-0
+                    notification-indicator
+                    notification-indicator-warning
+                    notification-indicator-fill
+                    icon-indicator
+                  "
                   href="https://prium.github.io/falcon/v2.8.2/default/e-commerce/shopping-cart.html"
                   ><span
                     class="fas fa-shopping-cart fs-4"
@@ -724,7 +778,12 @@
               </li>
               <li class="nav-item dropdown dropdown-on-hover">
                 <a
-                  class="nav-link notification-indicator notification-indicator-primary px-0 icon-indicator"
+                  class="
+                    nav-link
+                    notification-indicator notification-indicator-primary
+                    px-0
+                    icon-indicator
+                  "
                   id="navbarDropdownNotification"
                   href="#"
                   role="button"
@@ -759,7 +818,11 @@
                       </div>
                     </div>
                     <div
-                      class="list-group list-group-flush font-weight-normal fs--1"
+                      class="
+                        list-group list-group-flush
+                        font-weight-normal
+                        fs--1
+                      "
                     >
                       <div class="list-group-title border-bottom">NEW</div>
                       <div class="list-group-item">
@@ -905,12 +968,20 @@
             </ul>
           </nav>
           <nav
-            class="navbar navbar-light navbar-glass navbar-top sticky-kit navbar-expand-lg navbar-top-combo"
+            class="
+              navbar navbar-light navbar-glass navbar-top
+              sticky-kit
+              navbar-expand-lg navbar-top-combo
+            "
             data-move-target="#navbarVerticalNav"
             style="display: none"
           >
             <button
-              class="btn navbar-toggler-humburger-icon navbar-toggler mr-1 mr-sm-3"
+              class="
+                btn
+                navbar-toggler-humburger-icon navbar-toggler
+                mr-1 mr-sm-3
+              "
               type="button"
               data-toggle="collapse"
               data-target="#navbarVerticalCollapse"
@@ -981,7 +1052,12 @@
                   >
                     <div class="card navbar-card-pages shadow-none">
                       <div
-                        class="card-body scrollbar perfect-scrollbar max-h-dropdown"
+                        class="
+                          card-body
+                          scrollbar
+                          perfect-scrollbar
+                          max-h-dropdown
+                        "
                       >
                         <img
                           class="position-absolute b-0 r-0"
@@ -993,59 +1069,129 @@
                           <div class="col-6 col-md-4">
                             <div class="nav flex-column">
                               <a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/activity.html"
                                 >Activity</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/associations.html"
                                 >Associations</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/billing.html"
                                 >Billing</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/customer-details.html"
                                 >Customer details</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/event-detail.html"
                                 >Event detail</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/event-create.html"
                                 >Event create</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/events.html"
                                 >Events</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/faq.html"
                                 >Faq</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/invoice.html"
                                 >Invoice</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/invite-people.html"
                                 >Invite people</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/notifications.html"
                                 >Notifications</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/people.html"
                                 >People</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/pricing.html"
                                 >Pricing</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/pricing-alt.html"
                                 >Pricing alt</a
                               >
@@ -1054,57 +1200,123 @@
                           <div class="col-6 col-md-4">
                             <div class="nav flex-column">
                               <a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/profile.html"
                                 >Profile</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/settings.html"
                                 >Settings</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/starter.html"
                                 >Starter</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/calendar.html"
                                 >Calendar</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/chat.html"
                                 >Chat</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/kanban.html"
                                 >Kanban</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/widgets.html"
                                 >Widgets</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/errors/404.html"
                                 >404</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/pages/errors/500.html"
                                 >500</a
                               >
                               <div
-                                class="nav-link py-1 text-900 font-weight-bold mt-3"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-900
+                                  font-weight-bold
+                                  mt-3
+                                "
                               >
                                 Emails
                               </div>
                               <a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/email/inbox.html"
                                 >Inbox</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/email/email-detail.html"
                                 >Email detail</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/email/compose.html"
                                 >Compose</a
                               >
@@ -1118,35 +1330,75 @@
                                 E-commerce
                               </div>
                               <a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/e-commerce/product-list.html"
                                 >Product list</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/e-commerce/product-grid.html"
                                 >Product grid</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/e-commerce/product-details.html"
                                 >Product details</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/e-commerce/orders.html"
                                 >Orders</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/e-commerce/order-details.html"
                                 >Order details</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/e-commerce/customers.html"
                                 >Customers</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/e-commerce/shopping-cart.html"
                                 >Shopping cart</a
                               ><a
-                                class="nav-link py-1 text-700 font-weight-medium"
+                                class="
+                                  nav-link
+                                  py-1
+                                  text-700
+                                  font-weight-medium
+                                "
                                 href="https://prium.github.io/falcon/v2.8.2/default/e-commerce/checkout.html"
                                 >Checkout</a
                               >
@@ -1219,7 +1471,12 @@
               </ul>
             </div>
             <ul
-              class="navbar-nav navbar-nav-icons ml-auto flex-row align-items-center"
+              class="
+                navbar-nav navbar-nav-icons
+                ml-auto
+                flex-row
+                align-items-center
+              "
             >
               <li class="nav-item d-none d-md-block">
                 <a
@@ -1257,7 +1514,14 @@
               </li>
               <li class="nav-item">
                 <a
-                  class="nav-link px-0 notification-indicator notification-indicator-warning notification-indicator-fill icon-indicator"
+                  class="
+                    nav-link
+                    px-0
+                    notification-indicator
+                    notification-indicator-warning
+                    notification-indicator-fill
+                    icon-indicator
+                  "
                   href="https://prium.github.io/falcon/v2.8.2/default/e-commerce/shopping-cart.html"
                   ><span
                     class="fas fa-shopping-cart fs-4"
@@ -1268,7 +1532,12 @@
               </li>
               <li class="nav-item dropdown dropdown-on-hover">
                 <a
-                  class="nav-link notification-indicator notification-indicator-primary px-0 icon-indicator"
+                  class="
+                    nav-link
+                    notification-indicator notification-indicator-primary
+                    px-0
+                    icon-indicator
+                  "
                   id="navbarDropdownNotification"
                   href="#"
                   role="button"
@@ -1303,7 +1572,11 @@
                       </div>
                     </div>
                     <div
-                      class="list-group list-group-flush font-weight-normal fs--1"
+                      class="
+                        list-group list-group-flush
+                        font-weight-normal
+                        fs--1
+                      "
                     >
                       <div class="list-group-title border-bottom">NEW</div>
                       <div class="list-group-item">
@@ -1519,7 +1792,11 @@
                   data-toggle="buttons"
                 >
                   <div
-                    class="btn btn-theme-default custom-control custom-radio custom-radio-success active"
+                    class="
+                      btn btn-theme-default
+                      custom-control custom-radio custom-radio-success
+                      active
+                    "
                   >
                     <label
                       class="cursor-pointer hover-overlay"
@@ -1529,7 +1806,13 @@
                         src="/static/Admin/img/generic/falcon-mode-default.jpg"
                         alt="" /></label
                     ><label
-                      class="cursor-pointer mb-0 d-flex justify-content-center pl-3"
+                      class="
+                        cursor-pointer
+                        mb-0
+                        d-flex
+                        justify-content-center
+                        pl-3
+                      "
                       for="theme-mode-default"
                       ><input
                         class="custom-control-input"
@@ -1544,7 +1827,10 @@
                     >
                   </div>
                   <div
-                    class="btn btn-theme-dark custom-control custom-radio custom-radio-success"
+                    class="
+                      btn btn-theme-dark
+                      custom-control custom-radio custom-radio-success
+                    "
                   >
                     <label
                       class="cursor-pointer hover-overlay"
@@ -1554,7 +1840,13 @@
                         src="/static/Admin/img/generic/falcon-mode-dark.jpg"
                         alt="" /></label
                     ><label
-                      class="cursor-pointer mb-0 d-flex justify-content-center pl-3"
+                      class="
+                        cursor-pointer
+                        mb-0
+                        d-flex
+                        justify-content-center
+                        pl-3
+                      "
                       for="theme-mode-dark"
                       ><input
                         class="custom-control-input"
@@ -1667,7 +1959,10 @@
                       >
                     </div>
                     <div
-                      class="custom-control custom-radio custom-control-inline mr-0"
+                      class="
+                        custom-control custom-radio custom-control-inline
+                        mr-0
+                      "
                     >
                       <input
                         class="custom-control-input"
@@ -1696,7 +1991,13 @@
                 >
                   <div class="btn-group btn-block">
                     <div
-                      class="btn p-0 text-left custom-control custom-radio custom-radio-success mr-2"
+                      class="
+                        btn
+                        p-0
+                        text-left
+                        custom-control custom-radio custom-radio-success
+                        mr-2
+                      "
                     >
                       <label
                         class="cursor-pointer w-100"
@@ -1720,7 +2021,13 @@
                       >
                     </div>
                     <div
-                      class="btn p-0 text-left custom-control custom-radio custom-radio-success mr-2"
+                      class="
+                        btn
+                        p-0
+                        text-left
+                        custom-control custom-radio custom-radio-success
+                        mr-2
+                      "
                     >
                       <label
                         class="cursor-pointer w-100"
@@ -1746,7 +2053,13 @@
                   </div>
                   <div class="btn-group btn-block mt-3">
                     <div
-                      class="btn p-0 text-left custom-control custom-radio custom-radio-success mr-2"
+                      class="
+                        btn
+                        p-0
+                        text-left
+                        custom-control custom-radio custom-radio-success
+                        mr-2
+                      "
                     >
                       <label
                         class="cursor-pointer w-100"
@@ -1768,7 +2081,13 @@
                       >
                     </div>
                     <div
-                      class="btn p-0 text-left custom-control custom-radio custom-radio-success mr-2"
+                      class="
+                        btn
+                        p-0
+                        text-left
+                        custom-control custom-radio custom-radio-success
+                        mr-2
+                      "
                     >
                       <label
                         class="cursor-pointer w-100"
@@ -1827,7 +2146,13 @@
           <div class="modal-dialog mt-6" role="document">
             <div class="modal-content border-0">
               <div
-                class="modal-header px-5 text-white position-relative modal-shape-header"
+                class="
+                  modal-header
+                  px-5
+                  text-white
+                  position-relative
+                  modal-shape-header
+                "
               >
                 <div class="position-relative z-index-1">
                   <div>
@@ -1911,7 +2236,16 @@
                 <div class="w-100 position-relative mt-5">
                   <hr class="text-300" />
                   <div
-                    class="position-absolute absolute-centered t-0 px-3 bg-white text-sans-serif fs--1 text-500 text-nowrap"
+                    class="
+                      position-absolute
+                      absolute-centered
+                      t-0
+                      px-3
+                      bg-white
+                      text-sans-serif
+                      fs--1
+                      text-500 text-nowrap
+                    "
                   >
                     or register with
                   </div>
@@ -1920,7 +2254,10 @@
                   <div class="row no-gutters">
                     <div class="col-sm-6 pr-sm-1">
                       <a
-                        class="btn btn-outline-google-plus btn-sm btn-block mt-2"
+                        class="
+                          btn btn-outline-google-plus btn-sm btn-block
+                          mt-2
+                        "
                         href="#"
                         ><span
                           class="fab fa-google-plus-g mr-2"

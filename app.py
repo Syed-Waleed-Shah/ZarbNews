@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, Response, request, jsonify, make_response
+from flask import Flask, render_template, redirect, url_for, Response, request, jsonify, make_response, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
 from datetime import datetime
@@ -8,9 +8,12 @@ import secrets
 import requests
 
 app = Flask(__name__)
+app.secret_key = "gWxn2GjLfqKkBzsWo9tJebCQ22Hl0pgd"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['HOST_URL'] = "http://demo.breakernews.net"
+username = "syedwaleedshah"
+password = "process.startdashboard"
 db = SQLAlchemy(app)
 api_base = "https://breakernews.net/api/v1/"
 api_key = "gWxn2GjLfqKkBzsWo9tJebCQ22Hl0pgd"
@@ -319,7 +322,7 @@ def details(article_id):
 
 @app.route("/dashboard", methods=["GET","POST"])
 def admin():    
-    if request.args.get("username") == "syedwaleedshah" and request.args.get("password") == "usingsystem.dashboard":
+    if session.get("admin-info"):
         if request.method == "POST" and request.form.get("language"):        
             id = request.form.get("id")
             name = request.form.get("name")
@@ -345,8 +348,24 @@ def admin():
         langInfo = languagesInfo()
         return render_template('dashboard.html', languagesInfo=langInfo)
     else:
-        return "<h1>Page Not Found<h1>"
+        return redirect(url_for("admin_login"))
 
+
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST" and request.form.get("login"):
+        u = request.form.get("username")
+        p = request.form.get("password")
+
+        if u == username and p == password:
+            session["admin-info"] = {"username":username, "password":password}
+            return redirect(url_for("admin"))
+        else:
+            return render_template("admin-login.html", login_error = "The username or password is incorrect")
+
+
+    return render_template("admin-login.html")
 
    
 
